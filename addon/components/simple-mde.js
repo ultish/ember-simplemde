@@ -1,9 +1,9 @@
-import { once } from '@ember/runloop';
-import { getOwner } from '@ember/application';
+import {once} from '@ember/runloop';
+import {getOwner} from '@ember/application';
 import TextArea from '@ember/component/text-area';
-import { assign, merge } from '@ember/polyfills';
-import { get, computed } from '@ember/object';
-import { typeOf, isEmpty } from '@ember/utils';
+import {assign, merge} from '@ember/polyfills';
+import {get, computed} from '@ember/object';
+import {typeOf, isEmpty} from '@ember/utils';
 import Ember from 'ember';
 import layout from '../templates/components/simple-mde';
 
@@ -31,13 +31,13 @@ export default TextArea.extend({
   change: null,
 
   /**
-  * instance options to pass to simpleMDE
-  */
+   * instance options to pass to simpleMDE
+   */
   options: options,
 
   /**
-  * default simpleMDE options
-  */
+   * default simpleMDE options
+   */
   defaultSimpleMdeOptions: computed(function () {
     return {
       showIcons: ['table'],
@@ -45,10 +45,10 @@ export default TextArea.extend({
   }),
 
   /**
-  * global options defined in consuming apps config
-  */
-  globalSimpleMdeOptions: computed(function() {
-    if(testing) {
+   * global options defined in consuming apps config
+   */
+  globalSimpleMdeOptions: computed(function () {
+    if (testing) {
       return {};
     } else {
       return get(getOwner(this).resolveRegistration('config:environment'), 'simpleMDE') || {};
@@ -63,7 +63,7 @@ export default TextArea.extend({
   buildSimpleMDEOptions: computed(function () {
     let builtOptions = assign({}, this.get('defaultSimpleMdeOptions'), this.get('globalSimpleMdeOptions'), this.get('options'));
 
-    if(builtOptions.toolbar && typeOf(builtOptions.toolbar) === 'array') {
+    if (builtOptions.toolbar && typeOf(builtOptions.toolbar) === 'array') {
       builtOptions.toolbar.forEach(this.unpackToolbarOption);
     }
 
@@ -78,12 +78,12 @@ export default TextArea.extend({
    * Thus, we unpack them and restore the global reference.
    * If the toolbar action handler is a string, we attempt to reference the global function reference matching that string.
    */
-  unpackToolbarOption: function(toolbarOption) {
-    if(typeOf(toolbarOption.action) === 'string') {
+  unpackToolbarOption: function (toolbarOption) {
+    if (typeOf(toolbarOption.action) === 'string') {
       toolbarOption.action = toolbarOption.action
         .split('.')
-        .reduce(function(accumulator, value) {
-          if(!accumulator) {
+        .reduce(function (accumulator, value) {
+          if (!accumulator) {
             accumulator = window[value];
           } else {
             accumulator = accumulator[value];
@@ -98,16 +98,16 @@ export default TextArea.extend({
    * @public
    * instantiate the editor with the contents of value
    */
-  didInsertElement () {
+  didInsertElement() {
     this.set('currentEditor', new SimpleMDE(
       merge({
-        element: document.getElementById(this.elementId)
-      }, this.get('buildSimpleMDEOptions')
+          element: document.getElementById(this.elementId)
+        }, this.get('buildSimpleMDEOptions')
       )
     ));
     this.get('currentEditor').value(this.get('value') || '');
 
-    this.get('currentEditor').codemirror.on('change', () => once(this, function() {
+    this.get('currentEditor').codemirror.on('change', () => once(this, function () {
       if (this.change) {
         this.change(this.get('currentEditor').value())
       }
@@ -124,9 +124,11 @@ export default TextArea.extend({
    * @public
    * updates the editor when the value property change from the outside
    */
-  didReceiveAttrs () {
+  didReceiveAttrs() {
     let editor = this.get('currentEditor');
-    if (isEmpty(editor)) { return; }
+    if (isEmpty(editor)) {
+      return;
+    }
     let cursor = editor.codemirror.getDoc().getCursor();
     editor.value(this.get('value') || '');
     editor.codemirror.getDoc().setCursor(cursor);

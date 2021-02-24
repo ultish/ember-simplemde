@@ -1,7 +1,8 @@
-import { helper as buildHelper } from '@ember/component/helper';
-import { htmlSafe } from '@ember/template';
-import { isEmpty, typeOf } from '@ember/utils';
-import { assert } from '@ember/debug';
+import {helper as buildHelper} from '@ember/component/helper';
+import {htmlSafe} from '@ember/template';
+import {isEmpty, typeOf} from '@ember/utils';
+import {assert} from '@ember/debug';
+
 /*global SimpleMDE*/
 
 export function simpleMdePreview(params/*, hash*/) {
