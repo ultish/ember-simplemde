@@ -61,7 +61,7 @@
     "ember-cli-babel": "^6.16.0",
     "ember-cli-htmlbars": "2.0.3",
     "ember-cli-node-assets": "0.2.2",
-    "simplemde": "^1.11.2"
+    "simplemde": "git+https://github.com/ultish/simplemde-markdown-editor-mention.git"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
